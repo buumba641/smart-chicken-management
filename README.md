@@ -40,7 +40,7 @@ Smart Chicken is a practical poultry-house monitoring and management application
 ## Getting Started
 
 ```bash
-git clone https://github.com/<your-username>/smart-chicken-management.git
+git clone https://github.com/buumba641/smart-chicken-management.git
 cd smart-chicken-management
 npm install
 npm run dev
@@ -71,6 +71,18 @@ GEMINI_MODEL=gemini-2.5-flash
 `GEMINI_API_KEY` must only be configured as a server/deployment secret. Never put it in a `VITE_` variable, browser code, or the repository. Do not place Firebase Admin SDK private keys in this frontend project.
 
 Firestore must allow client reads on `sensorReadings` for the dashboard to load.
+
+## Firestore Collections
+
+- `sensorReadings/{readingId}` stores ESP8266 sensor readings.
+- `cycles/{cycleId}` stores the active chick cycle and arrival date.
+- `cycles/{cycleId}/mortality/{recordId}` stores mortality records.
+- `cycles/{cycleId}/reminders/{reminderId}` stores custom cycle reminders.
+- `knowledgeBase/{documentId}` stores optional ChicDoc reference material.
+
+Starting a new cycle permanently deletes the active cycle, its mortality documents, and its reminder documents before creating the replacement cycle. The application does not archive previous cycles.
+
+Protect write access with Firestore Security Rules and authentication appropriate for the deployment. Do not make the database publicly writable.
 
 ## Build
 
